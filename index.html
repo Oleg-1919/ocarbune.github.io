@@ -83,13 +83,11 @@
 
         footer {
             background-color: #000;
-            padding: 10px;
+            padding: 20px;
             border-radius: 12px;
             color: #ffffff;
             text-align: center;
             margin-top: 20px;
-            width: 100%;
-            position: relative;
         }
 
         footer a {
@@ -105,11 +103,12 @@
         .instagram-logo {
             display: inline-block;
             margin-top: 10px;
+            margin-bottom: 20px;
         }
 
         .instagram-logo img {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             vertical-align: middle;
         }
 
@@ -298,8 +297,100 @@
     </footer>
 
     <script>
-        // Funciones para gestionar contraseñas y login...
-        // El resto del código de JavaScript sigue igual
+        // Función para obtener las contraseñas de un usuario
+        function getUserPasswords(username) {
+            let storedPasswords = localStorage.getItem(username);
+            return storedPasswords ? JSON.parse(storedPasswords) : [];
+        }
+
+        // Función para guardar contraseñas de un usuario
+        function saveUserPasswords(username, passwords) {
+            localStorage.setItem(username, JSON.stringify(passwords));
+        }
+
+        let contrasenyes = [];
+
+        // Funciones para gestionar el login y registro
+        function login() {
+            const username = document.getElementById('username').value;
+            if (username) {
+                contrasenyes = getUserPasswords(username);
+                document.getElementById('usernameText').textContent = username;
+                document.getElementById('usernameDisplay').style.display = 'block';
+                document.getElementById('login').style.display = 'none';
+                mostrarContrasenyes();
+            }
+        }
+
+        function register() {
+            const username = document.getElementById('username').value;
+            if (username) {
+                alert("Usuari registrat correctament!");
+            }
+        }
+
+        function logout() {
+            document.getElementById('usernameText').textContent = '';
+            document.getElementById('usernameDisplay').style.display = 'none';
+            document.getElementById('login').style.display = 'block';
+        }
+
+        function deleteAccount() {
+            const username = document.getElementById('usernameText').textContent;
+            if (username) {
+                localStorage.removeItem(username); // Eliminar las contraseñas del usuario
+                alert(`Compte de l'usuari ${username} esborrat!`);
+                logout();
+            }
+        }
+
+        // Funciones para gestionar contraseñas
+        function guardarContrasenya() {
+            const nomLloc = document.getElementById('nomLloc').value;
+            const contrasenya = document.getElementById('contrasenya').value;
+            if (nomLloc && contrasenya) {
+                contrasenyes.push({ lloc: nomLloc, contrasenya: contrasenya });
+                saveUserPasswords(document.getElementById('usernameText').textContent, contrasenyes);
+                mostrarContrasenyes();
+            }
+        }
+
+        function mostrarContrasenyes() {
+            const container = document.getElementById('contrasenyesGuardades');
+            container.innerHTML = '';
+            contrasenyes.forEach(contrasenya => {
+                const contrasenyaElement = document.createElement('div');
+                contrasenyaElement.classList.add('contrasenya-item');
+                contrasenyaElement.innerHTML = `<span>${contrasenya.lloc}: <span class="contrasenya-oculta">********</span></span> 
+                <button onclick="mostrarContrasenyaDetall('${contrasenya.lloc}')">Mostrar</button>`;
+                container.appendChild(contrasenyaElement);
+            });
+        }
+
+        function mostrarContrasenyaDetall(lloc) {
+            const contrasenya = contrasenyes.find(item => item.lloc === lloc);
+            if (contrasenya) {
+                alert(`Contrasenya de ${lloc}: ${contrasenya.contrasenya}`);
+            }
+        }
+
+        function borrarContrasenyes() {
+            contrasenyes = [];
+            saveUserPasswords(document.getElementById('usernameText').textContent, contrasenyes);
+            mostrarContrasenyes();
+        }
+
+        // Mostrar secció
+        function mostrarSeccio(seccio) {
+            document.querySelectorAll('.seccio').forEach(el => el.style.display = 'none');
+            document.getElementById(seccio).style.display = 'block';
+        }
+
+        // Menú d'usuari
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
     </script>
 </body>
 </html>
