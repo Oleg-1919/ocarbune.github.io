@@ -297,9 +297,19 @@
     </footer>
 
     <script>
+        // Función para guardar las contraseñas por usuario
+        function getUserPasswords(username) {
+            let storedPasswords = localStorage.getItem(username);
+            return storedPasswords ? JSON.parse(storedPasswords) : [];
+        }
+
+        function saveUserPasswords(username, passwords) {
+            localStorage.setItem(username, JSON.stringify(passwords));
+        }
+
         let contrasenyes = [];
 
-        // Funcions per gestionar el login, registre i usuari
+        // Funciones para gestionar el login, registro y usuario
         function toggleUserMenu() {
             const menu = document.getElementById('userMenu');
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
@@ -307,10 +317,13 @@
 
         function login() {
             const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
             if (username) {
+                contrasenyes = getUserPasswords(username);
                 document.getElementById('usernameText').textContent = username;
                 document.getElementById('usernameDisplay').style.display = 'block';
                 document.getElementById('login').style.display = 'none';
+                mostrarContrasenyes();
             }
         }
 
@@ -331,17 +344,19 @@
         function deleteAccount() {
             const username = document.getElementById('usernameText').textContent;
             if (username) {
+                localStorage.removeItem(username); // Eliminar las contraseñas del usuario
                 alert(`Compte de l'usuari ${username} esborrat!`);
                 logout();
             }
         }
 
-        // Funcions per gestionar contrasenyes
+        // Funciones para gestionar contraseñas
         function guardarContrasenya() {
             const nomLloc = document.getElementById('nomLloc').value;
             const contrasenya = document.getElementById('contrasenya').value;
             if (nomLloc && contrasenya) {
                 contrasenyes.push({ lloc: nomLloc, contrasenya: contrasenya });
+                saveUserPasswords(document.getElementById('usernameText').textContent, contrasenyes);
                 mostrarContrasenyes();
             }
         }
@@ -367,6 +382,7 @@
 
         function borrarContrasenyes() {
             contrasenyes = [];
+            saveUserPasswords(document.getElementById('usernameText').textContent, contrasenyes);
             mostrarContrasenyes();
         }
 
@@ -378,5 +394,6 @@
     </script>
 </body>
 </html>
+
 
 
