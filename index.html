@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oleg Carbune - Pàgina Web</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estils generals */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #ecf0f1;
+            text-align: center;
+            animation: fadeIn 3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Video de fons */
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Animació de desvaniment per a tot el cos */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .contenidor {
+            background-color: rgba(44, 62, 80, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            margin: 50px auto;
+            width: 90%;
+            max-width: 700px;
+            color: #ecf0f1;
+            flex: 1;
+        }
+
+        h1 {
+            color: #f3f2f1;
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .botons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #16a085;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.3s ease, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #1abc9c;
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: #000;
+            padding: 20px;
+            border-radius: 12px;
+            color: #ffffff;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        footer a {
+            color: #f39c12;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .instagram-logo {
+            display: inline-block;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .instagram-logo img {
+            width: 50px;
+            height: 50px;
+            vertical-align: middle;
+        }
+
+        .seccio {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .seccio#inici {
+            display: block;
+        }
+
+        .gestor-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .gestor-container input,
+        .gestor-container button {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            width: 350px;
+        }
+
+        .form-container input,
+        .form-container button {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        #usernameDisplay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 18px;
+            color: #fff;
+            display: none;
+            background-color: #16a085;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #userMenu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: #34495e;
+            border-radius: 6px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        #userMenu button {
+            background-color: #e74c3c;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        .contrasenya-item {
+            background-color: #34495e;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .contrasenya-item button {
+            background-color: #16a085;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        .contrasenya-item button:hover {
+            background-color: #1abc9c;
+        }
+
+        .contrasenya-oculta {
+            display: inline-block;
+            background-color: #7f8c8d;
+            color: #ecf0f1;
+            border-radius: 6px;
+            padding: 6px 10px;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop>
+        <source src="fondo.mp4" type="video/mp4">
+        El teu navegador no suporta vídeos de fons.
+    </video>
+
+    <!-- Formulario de inicio de sesión y registro -->
+    <div id="login" class="form-container">
+        <h2>Inicia sessió o registra't</h2>
+        <input id="username" type="text" placeholder="Nom d'usuari">
+        <input id="password" type="password" placeholder="Contrasenya">
+        <button onclick="login()">Iniciar sessió</button>
+        <button onclick="register()">Registrar-se</button>
+    </div>
+
+    <!-- Área del nombre de usuario con menú desplegable -->
+    <div id="usernameDisplay" onclick="toggleUserMenu()">Usuari: <span id="usernameText"></span></div>
+    <div id="userMenu">
+        <button onclick="logout()">Tancar sessió</button>
+        <button onclick="deleteAccount()">Esborrar compte</button>
+    </div>
+    <div class="contenidor">
+        <h1 id="titol">Benvingut a la meva pàgina web</h1>
+        <div class="botons">
+            <button onclick="mostrarSeccio('inici')">Inici</button>
+            <button onclick="mostrarSeccio('sobreMi')">Sobre mi</button>
+            <button onclick="mostrarSeccio('gestorContrasenyes')">Gestor de contrasenyes</button>
+            <button onclick="mostrarSeccio('proximament')">Pròximament</button>
+        </div>
+        <div id="inici" class="seccio">
+            <p>Aquesta pàgina està dissenyada per mostrar informació sobre mi, gestionar contrasenyes i molt més.</p>
+        </div>
+        <div id="sobreMi" class="seccio">
+            <h2>Sobre mi</h2>
+            <p>Sóc Oleg Carbune, un estudiant d'informàtica. M'agrada el futbol i visc a Oliana.</p>
+            <p>Tinc 16 anys i m'agrada l'informàtica, ara estic fent primer i aquesta web té la finalitat de crear aqui les meves innovacions.</p>
+        </div>
+        <div id="gestorContrasenyes" class="seccio">
+            <h2>Gestor de contrasenyes</h2>
+            <div class="gestor-container">
+                <p>Introdueix un lloc i una contrasenya per guardar-la:</p>
+                <input id="nomLloc" type="text" placeholder="Nom del lloc">
+                <input id="contrasenya" type="password" placeholder="Contrasenya">
+                <button onclick="guardarContrasenya()">Guardar</button>
+                <button onclick="borrarContrasenyes()">Borrar totes</button>
+            </div>
+            <h3>Contrasenyes guardades:</h3>
+            <div id="contrasenyesGuardades" class="contrasenya-list"></div>
+        </div>
+        <div id="proximament" class="seccio">
+            <h2>Pròximament</h2>
+            <p>Estigues atent per a futures funcionalitats!</p>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Oleg Carbune. Tots els drets reservats.</p>
+        <div class="instagram-logo">
+            <a href="https://www.instagram.com/_oleeg_8/" target="_blank"><img src="instagram-logo.png" alt="Instagram"></a>
+        </div>
+    </footer>
+
+    <script>
+        // Variables globals
+        const users = JSON.parse(localStorage.getItem("users")) || {};
+        let currentUser = null;
+
+        // Funció per mostrar una secció
+        function mostrarSeccio(seccio) {
+            document.querySelectorAll('.seccio').forEach(element => {
+                element.style.display = 'none';
+            });
+            document.getElementById(seccio).style.display = 'block';
+        }
+
+        // Funció per mostrar el contingut després d'iniciar sessió
+        function mostrarContingut() {
+            document.getElementById("login").style.display = 'none';
+            document.getElementById("usernameDisplay").style.display = 'block';
+            mostrarSeccio('inici');
+            mostrarContrasenyes();
+        }
+
+        // Funció per gestionar la sessió de l'usuari
+        function toggleUserMenu() {
+            document.getElementById('userMenu').style.display = 
+                document.getElementById('userMenu').style.display === 'block' ? 'none' : 'block';
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('usernameText').textContent = '';
+            document.getElementById('usernameDisplay').style.display = 'none';
+            document.getElementById('login').style.display = 'block';
+            document.getElementById('userMenu').style.display = 'none';
+        }
+
+        function deleteAccount() {
+            if (currentUser) {
+                delete users[currentUser];
+                localStorage.setItem("users", JSON.stringify(users));
+                alert("Compte esborrat.");
+                logout();
+            }
+        }
+
+        // Funció per a la gestió de contrasenyes
+        function guardarContrasenya() {
+            const nomLloc = document.getElementById("nomLloc").value;
+            const contrasenya = document.getElementById("contrasenya").value;
+
+            if (nomLloc && contrasenya && currentUser) {
+                users[currentUser].contrasenyes.push({ nomLloc, contrasenya });
+                localStorage.setItem("users", JSON.stringify(users));
+                mostrarContrasenyes();
+                document.getElementById("nomLloc").value = '';
+                document.getElementById("contrasenya").value = '';
+            } else {
+                alert("Omple tots els camps i inicia sessió.");
+            }
+        }
+
+        function mostrarContrasenyes() {
+            const contrasenyesGuardades = document.getElementById("contrasenyesGuardades");
+            contrasenyesGuardades.innerHTML = '';
+            users[currentUser]?.contrasenyes.forEach((item, index) => {
+                const div = document.createElement("div");
+                div.classList.add("contrasenya-item");
+                div.innerHTML = `${item.nomLloc}: <span class="contrasenya-oculta" id="password-${index}">${item.contrasenya}</span> 
+                <button onclick="togglePasswordVisibility(${index})" id="button-${index}">VEURE</button>`;
+                contrasenyesGuardades.appendChild(div);
+            });
+        }
+
+        function togglePasswordVisibility(index) {
+            const passwordElement = document.getElementById(`password-${index}`);
+            const buttonElement = document.getElementById(`button-${index}`);
+            if (passwordElement.style.display === 'none') {
+                passwordElement.style.display = 'inline-block';
+                buttonElement.textContent = 'DEIXAR DE VEURE';
+            } else {
+                passwordElement.style.display = 'none';
+                buttonElement.textContent = 'VEURE';
+            }
+        }
+
+        function borrarContrasenyes() {
+            if (currentUser) {
+                users[currentUser].contrasenyes = [];
+                localStorage.setItem("users", JSON.stringify(users));
+                mostrarContrasenyes();
+            }
+        }
+
+        // Funció per iniciar sessió
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (users[username] && users[username].password === password) {
+                currentUser = username;
+                document.getElementById('usernameText').textContent = username;
+                mostrarContingut();
+            } else {
+                alert("Usuari o contrasenya incorrectes.");
+            }
+        }
+
+        // Funció per registrar-se
+        function register() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username && password) {
+                if (users[username]) {
+                    alert("Aquest usuari ja existeix.");
+                } else {
+                    users[username] = { password, contrasenyes: [] };
+                    localStorage.setItem("users", JSON.stringify(users));
+                    alert("Usuari creat amb èxit!");
+                    login();
+                }
+            } else {
+                alert("Omple tots els camps.");
+            }
+        }
+    </script>
+</body>
+</html>
+
+
