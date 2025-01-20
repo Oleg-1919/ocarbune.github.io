@@ -19,8 +19,8 @@
             min-height: 100vh;
         }
 
-        /* Video de fons */
-        video {
+        /* Imatge de fons */
+        .background-image {
             position: fixed;
             top: 0;
             left: 0;
@@ -236,10 +236,7 @@
     </style>
 </head>
 <body>
-    <video autoplay muted loop>
-        <source src="fondo.mp4" type="video/mp4">
-        El teu navegador no suporta vídeos de fons.
-    </video>
+    <img src="vhg4vpsvozed1.jpg" alt="Fondo" class="background-image">
 
     <!-- Formulario de inicio de sesión y registro -->
     <div id="login" class="form-container">
@@ -282,143 +279,101 @@
                 <button onclick="borrarContrasenyes()">Borrar totes</button>
             </div>
             <h3>Contrasenyes guardades:</h3>
-            <div id="contrasenyesGuardades" class="contrasenya-list"></div>
+            <div id="contrasenyesGuardades" class="contrasenya-container"></div>
         </div>
         <div id="proximament" class="seccio">
-            <h2>Pròximament</h2>
-            <p>Estigues atent per a futures funcionalitats!</p>
+            <p>Aquesta secció està en construcció. Torna més endavant!</p>
         </div>
     </div>
+
     <footer>
-        <p>&copy; 2024 Oleg Carbune. Tots els drets reservats.</p>
+        <p>&copy; 2025 Oleg Carbune</p>
+        <a href="https://www.instagram.com" target="_blank">Segueix-me a Instagram</a>
         <div class="instagram-logo">
-            <a href="https://www.instagram.com/_oleeg_8/" target="_blank"><img src="instagram-logo.png" alt="Instagram"></a>
+            <a href="https://www.instagram.com">
+                <img src="instagram-logo.png" alt="Instagram Logo">
+            </a>
         </div>
     </footer>
 
     <script>
-        // Variables globals
-        const users = JSON.parse(localStorage.getItem("users")) || {};
-        let currentUser = null;
+        let contrasenyes = [];
 
-        // Funció per mostrar una secció
-        function mostrarSeccio(seccio) {
-            document.querySelectorAll('.seccio').forEach(element => {
-                element.style.display = 'none';
-            });
-            document.getElementById(seccio).style.display = 'block';
-        }
-
-        // Funció per mostrar el contingut després d'iniciar sessió
-        function mostrarContingut() {
-            document.getElementById("login").style.display = 'none';
-            document.getElementById("usernameDisplay").style.display = 'block';
-            mostrarSeccio('inici');
-            mostrarContrasenyes();
-        }
-
-        // Funció per gestionar la sessió de l'usuari
+        // Funcions per gestionar el login, registre i usuari
         function toggleUserMenu() {
-            document.getElementById('userMenu').style.display = 
-                document.getElementById('userMenu').style.display === 'block' ? 'none' : 'block';
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            if (username) {
+                document.getElementById('usernameText').textContent = username;
+                document.getElementById('usernameDisplay').style.display = 'block';
+                document.getElementById('login').style.display = 'none';
+            }
+        }
+
+        function register() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (username && password) {
+                alert("S'han registrat correctament!");
+            }
         }
 
         function logout() {
-            currentUser = null;
             document.getElementById('usernameText').textContent = '';
             document.getElementById('usernameDisplay').style.display = 'none';
             document.getElementById('login').style.display = 'block';
-            document.getElementById('userMenu').style.display = 'none';
         }
 
         function deleteAccount() {
-            if (currentUser) {
-                delete users[currentUser];
-                localStorage.setItem("users", JSON.stringify(users));
-                alert("Compte esborrat.");
+            const username = document.getElementById('usernameText').textContent;
+            if (username) {
+                alert(`Compte de l'usuari ${username} esborrat!`);
                 logout();
             }
         }
 
-        // Funció per a la gestió de contrasenyes
+        // Funcions per gestionar contrasenyes
         function guardarContrasenya() {
-            const nomLloc = document.getElementById("nomLloc").value;
-            const contrasenya = document.getElementById("contrasenya").value;
-
-            if (nomLloc && contrasenya && currentUser) {
-                users[currentUser].contrasenyes.push({ nomLloc, contrasenya });
-                localStorage.setItem("users", JSON.stringify(users));
+            const nomLloc = document.getElementById('nomLloc').value;
+            const contrasenya = document.getElementById('contrasenya').value;
+            if (nomLloc && contrasenya) {
+                contrasenyes.push({ lloc: nomLloc, contrasenya: contrasenya });
                 mostrarContrasenyes();
-                document.getElementById("nomLloc").value = '';
-                document.getElementById("contrasenya").value = '';
-            } else {
-                alert("Omple tots els camps i inicia sessió.");
             }
         }
 
         function mostrarContrasenyes() {
-            const contrasenyesGuardades = document.getElementById("contrasenyesGuardades");
-            contrasenyesGuardades.innerHTML = '';
-            users[currentUser]?.contrasenyes.forEach((item, index) => {
-                const div = document.createElement("div");
-                div.classList.add("contrasenya-item");
-                div.innerHTML = `${item.nomLloc}: <span class="contrasenya-oculta" id="password-${index}">${item.contrasenya}</span> 
-                <button onclick="togglePasswordVisibility(${index})" id="button-${index}">VEURE</button>`;
-                contrasenyesGuardades.appendChild(div);
+            const container = document.getElementById('contrasenyesGuardades');
+            container.innerHTML = '';
+            contrasenyes.forEach(contrasenya => {
+                const contrasenyaElement = document.createElement('div');
+                contrasenyaElement.classList.add('contrasenya-item');
+                contrasenyaElement.innerHTML = `<span>${contrasenya.lloc}: <span class="contrasenya-oculta">********</span></span> 
+                <button onclick="mostrarContrasenyaDetall('${contrasenya.lloc}')">Mostrar</button>`;
+                container.appendChild(contrasenyaElement);
             });
         }
 
-        function togglePasswordVisibility(index) {
-            const passwordElement = document.getElementById(`password-${index}`);
-            const buttonElement = document.getElementById(`button-${index}`);
-            if (passwordElement.style.display === 'none') {
-                passwordElement.style.display = 'inline-block';
-                buttonElement.textContent = 'DEIXAR DE VEURE';
-            } else {
-                passwordElement.style.display = 'none';
-                buttonElement.textContent = 'VEURE';
+        function mostrarContrasenyaDetall(lloc) {
+            const contrasenya = contrasenyes.find(item => item.lloc === lloc);
+            if (contrasenya) {
+                alert(`Contrasenya de ${lloc}: ${contrasenya.contrasenya}`);
             }
         }
 
         function borrarContrasenyes() {
-            if (currentUser) {
-                users[currentUser].contrasenyes = [];
-                localStorage.setItem("users", JSON.stringify(users));
-                mostrarContrasenyes();
-            }
+            contrasenyes = [];
+            mostrarContrasenyes();
         }
 
-        // Funció per iniciar sessió
-        function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (users[username] && users[username].password === password) {
-                currentUser = username;
-                document.getElementById('usernameText').textContent = username;
-                mostrarContingut();
-            } else {
-                alert("Usuari o contrasenya incorrectes.");
-            }
-        }
-
-        // Funció per registrar-se
-        function register() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username && password) {
-                if (users[username]) {
-                    alert("Aquest usuari ja existeix.");
-                } else {
-                    users[username] = { password, contrasenyes: [] };
-                    localStorage.setItem("users", JSON.stringify(users));
-                    alert("Usuari creat amb èxit!");
-                    login();
-                }
-            } else {
-                alert("Omple tots els camps.");
-            }
+        // Mostrar secció
+        function mostrarSeccio(seccio) {
+            document.querySelectorAll('.seccio').forEach(s => s.style.display = 'none');
+            document.getElementById(seccio).style.display = 'block';
         }
     </script>
 </body>
