@@ -297,27 +297,22 @@
     </footer>
 
     <script>
-        // Función para guardar las contraseñas por usuario
+        // Función para obtener las contraseñas de un usuario
         function getUserPasswords(username) {
             let storedPasswords = localStorage.getItem(username);
             return storedPasswords ? JSON.parse(storedPasswords) : [];
         }
 
+        // Función para guardar contraseñas de un usuario
         function saveUserPasswords(username, passwords) {
             localStorage.setItem(username, JSON.stringify(passwords));
         }
 
         let contrasenyes = [];
 
-        // Funciones para gestionar el login, registro y usuario
-        function toggleUserMenu() {
-            const menu = document.getElementById('userMenu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
-
+        // Funciones para gestionar el login y registro
         function login() {
             const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
             if (username) {
                 contrasenyes = getUserPasswords(username);
                 document.getElementById('usernameText').textContent = username;
@@ -329,9 +324,8 @@
 
         function register() {
             const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            if (username && password) {
-                alert("S'han registrat correctament!");
+            if (username) {
+                alert("Usuari registrat correctament!");
             }
         }
 
@@ -388,12 +382,15 @@
 
         // Mostrar secció
         function mostrarSeccio(seccio) {
-            document.querySelectorAll('.seccio').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.seccio').forEach(el => el.style.display = 'none');
             document.getElementById(seccio).style.display = 'block';
+        }
+
+        // Menú d'usuari
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         }
     </script>
 </body>
 </html>
-
-
-
