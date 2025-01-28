@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+
+         
+        }
+
+          <!DOCTYPE html>
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
@@ -288,26 +292,60 @@
     </footer>
 
     <script>
-        let usuarioAutenticado = false;
+        let contrasenyes = [];
 
-        function iniciarSesion() {
-            const usuario = prompt("Introdueix el teu nom d'usuari:");
-            const contrasenya = prompt("Introdueix la teva contrasenya:");
+        function guardarContrasenya() {
+            const nomLloc = document.getElementById('nomLloc').value;
+            const contrasenya = document.getElementById('contrasenya').value;
 
-            if (usuario === "admin" && contrasenya === "12345") {
-                usuarioAutenticado = true;
-                document.getElementById("usernameDisplay").textContent = usuario;
-                document.getElementById("usernameDisplay").style.display = "block";
-                document.getElementById("userMenu").style.display = "block";
-            } else {
-                alert("Usuari o contrasenya incorrectes.");
+            if (!nomLloc || !contrasenya) {
+                alert("Introdueix tant el nom del lloc com la contrasenya.");
+                return;
             }
+
+            contrasenyes.push({ lloc: nomLloc, contrasenya: contrasenya });
+
+            // Actualitzar la vista de contrasenyes guardades
+            mostrarContrasenyes();
         }
 
-        function mostrarSeccio(seccio) {
-            const seccions = document.querySelectorAll('.seccio');
-            seccions.forEach(s => s.style.display = 'none');
-            document.getElementById(seccio).style.display = 'block';
+        function mostrarContrasenyes() {
+            const container = document.getElementById('contrasenyesGuardades');
+            container.innerHTML = ""; // Borrar contrasenyes actuals
+
+            contrasenyes.forEach((item, index) => {
+                const contrasenyaItem = document.createElement('div');
+                contrasenyaItem.classList.add('contrasenya-item');
+                
+                const nomLloc = document.createElement('span');
+                nomLloc.textContent = `${item.lloc}: `;
+                
+                const contrasenya = document.createElement('span');
+                contrasenya.textContent = item.contrasenya;
+                contrasenya.classList.add('contrasenya-oculta');
+
+                const veureBtn = document.createElement('button');
+                veureBtn.textContent = "Mostrar";
+                veureBtn.onclick = () => {
+                    if (contrasenya.style.display === "inline-block") {
+                        contrasenya.style.display = "none";
+                        veureBtn.textContent = "Mostrar";
+                    } else {
+                        contrasenya.style.display = "inline-block";
+                        veureBtn.textContent = "Ocultar";
+                    }
+                };
+
+                contrasenyaItem.appendChild(nomLloc);
+                contrasenyaItem.appendChild(contrasenya);
+                contrasenyaItem.appendChild(veureBtn);
+                container.appendChild(contrasenyaItem);
+            });
+        }
+
+        function borrarContrasenyes() {
+            contrasenyes = [];
+            mostrarContrasenyes();
         }
 
         function analitzarContrasenya() {
