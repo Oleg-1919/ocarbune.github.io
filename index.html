@@ -290,6 +290,17 @@
     <script>
         let contrasenyes = [];
 
+        function mostrarSeccio(seccio) {
+            const seccions = document.querySelectorAll('.seccio');
+            seccions.forEach((seccioElement) => {
+                if (seccioElement.id === seccio) {
+                    seccioElement.style.display = 'block';
+                } else {
+                    seccioElement.style.display = 'none';
+                }
+            });
+        }
+
         function guardarContrasenya() {
             const nomLloc = document.getElementById('nomLloc').value;
             const contrasenya = document.getElementById('contrasenya').value;
