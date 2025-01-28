@@ -280,6 +280,60 @@
             </div>
             <h3>Contrasenyes guardades:</h3>
             <div id="contrasenyesGuardades" class="contrasenya-container"></div>
+            <div id="analisiSeguretat" class="seccio">
+    <h2>Anàlisi de seguretat de contrasenyes</h2>
+    <div class="gestor-container">
+        <p>Escriu una contrasenya per analitzar la seva seguretat:</p>
+        <input id="contrasenyaAnalisi" type="password" placeholder="Introdueix la contrasenya">
+        <button onclick="analitzarContrasenya()">Analitzar</button>
+    </div>
+    <div id="resultatAnalisi" style="margin-top: 20px; font-size: 18px; color: #ecf0f1;"></div>
+</div>
+
+<script>
+    function analitzarContrasenya() {
+        const contrasenya = document.getElementById('contrasenyaAnalisi').value;
+        const resultatDiv = document.getElementById('resultatAnalisi');
+
+        if (!contrasenya) {
+            resultatDiv.textContent = "Introdueix una contrasenya per analitzar.";
+            return;
+        }
+
+        let puntuacio = 0;
+
+        // Verificació de criteris
+        if (contrasenya.length >= 8) puntuacio++;
+        if (/[A-Z]/.test(contrasenya)) puntuacio++;
+        if (/[a-z]/.test(contrasenya)) puntuacio++;
+        if (/[0-9]/.test(contrasenya)) puntuacio++;
+        if (/[^A-Za-z0-9]/.test(contrasenya)) puntuacio++;
+
+        // Resultat segons la puntuació
+        let missatge = "";
+        switch (puntuacio) {
+            case 0:
+            case 1:
+                missatge = "Contrasenya molt dèbil. Intenta fer-la més complexa.";
+                break;
+            case 2:
+                missatge = "Contrasenya dèbil. Afegeix més varietat de caràcters.";
+                break;
+            case 3:
+                missatge = "Contrasenya moderada. Podria ser millorada.";
+                break;
+            case 4:
+                missatge = "Contrasenya forta. Bona feina!";
+                break;
+            case 5:
+                missatge = "Contrasenya molt forta. Excel·lent!";
+                break;
+        }
+
+        resultatDiv.textContent = missatge;
+    }
+</script>
+
         </div>
         <div id="proximament" class="seccio">
             <p>Aquesta secció està en construcció. Torna més endavant!</p>
