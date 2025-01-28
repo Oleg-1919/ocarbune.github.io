@@ -288,6 +288,28 @@
     </footer>
 
     <script>
+        let usuarioAutenticado = false;
+
+        function iniciarSesion() {
+            const usuario = prompt("Introdueix el teu nom d'usuari:");
+            const contrasenya = prompt("Introdueix la teva contrasenya:");
+
+            if (usuario === "admin" && contrasenya === "12345") {
+                usuarioAutenticado = true;
+                document.getElementById("usernameDisplay").textContent = usuario;
+                document.getElementById("usernameDisplay").style.display = "block";
+                document.getElementById("userMenu").style.display = "block";
+            } else {
+                alert("Usuari o contrasenya incorrectes.");
+            }
+        }
+
+        function mostrarSeccio(seccio) {
+            const seccions = document.querySelectorAll('.seccio');
+            seccions.forEach(s => s.style.display = 'none');
+            document.getElementById(seccio).style.display = 'block';
+        }
+
         function analitzarContrasenya() {
             const contrasenya = document.getElementById('contrasenyaAnalisi').value;
             const resultatDiv = document.getElementById('resultatAnalisi');
@@ -327,12 +349,6 @@
                     break;
             }
             resultatDiv.textContent = missatge;
-        }
-
-        function mostrarSeccio(seccio) {
-            const seccions = document.querySelectorAll('.seccio');
-            seccions.forEach(s => s.style.display = 'none');
-            document.getElementById(seccio).style.display = 'block';
         }
     </script>
 </body>
